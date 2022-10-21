@@ -10,11 +10,13 @@ class SubcategoriesServices{
   }
 
   create(body){
-    const {name,image,size} = body;
+    const {name,image,size,categoriaId} = body;
      const newSubcategory =  prisma.subCategoria.create({
       data:{
         name,
-        image,size
+        image,
+        size,
+        categoriaId
       }
      })
    return newSubcategory;
@@ -25,24 +27,25 @@ class SubcategoriesServices{
     return subcategories;
   }
    findOne(id){
-    const categoryId =  prisma.subCategoria.findFirst({
+    const subcategoryId =  prisma.subCategoria.findFirst({
       where: { id: parseInt(id) }
     })
-    return categoryId;
+    return subcategoryId;
   }
   update(id,data){
-    const {name,image } = data;
-    const categories = prisma.subCategoria.update({
+    const {name,image,size } = data;
+    const subcategories = prisma.subCategoria.update({
       where: { id: parseInt(id) },
       data: {
             name: name,
-            image: image
+            image: image,
+            size:size
             },
     })
-    return categories;
+    return subcategories;
   }
   delete(id){
-    const delet = this.update(id,{status:false})
+    const delet = this.update(id)
     return delet;
   }
 

@@ -3,6 +3,8 @@ CREATE TABLE `categoria` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(50) NOT NULL,
     `image` VARCHAR(50) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -13,6 +15,8 @@ CREATE TABLE `subcategoria` (
     `name` VARCHAR(50) NOT NULL,
     `image` VARCHAR(50) NOT NULL,
     `size` BOOLEAN NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
     `categoria_id` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
@@ -28,6 +32,8 @@ CREATE TABLE `producto` (
     `stock` INTEGER NOT NULL,
     `image` VARCHAR(50) NOT NULL,
     `subcategoria_id` INTEGER NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -36,6 +42,8 @@ CREATE TABLE `producto` (
 CREATE TABLE `color` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(50) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -84,6 +92,8 @@ CREATE TABLE `orden` (
     `status` VARCHAR(50) NOT NULL,
     `envio_type` VARCHAR(50) NOT NULL,
     `total` VARCHAR(50) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
     `usuario_id` INTEGER NOT NULL,
     `precioEnvio_id` INTEGER NOT NULL,
 
@@ -96,6 +106,9 @@ CREATE TABLE `usuario` (
     `name` VARCHAR(50) NOT NULL,
     `email` VARCHAR(50) NOT NULL,
     `contrasena` VARCHAR(50) NOT NULL,
+    `image` VARCHAR(50) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -113,6 +126,8 @@ CREATE TABLE `precio_envio` (
 CREATE TABLE `departamento` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(50) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -142,6 +157,8 @@ CREATE TABLE `direccion` (
     `calle` VARCHAR(50) NOT NULL,
     `numero` VARCHAR(50) NOT NULL,
     `referencia` VARCHAR(50) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
     `departamento_id` INTEGER NOT NULL,
     `ciudad_id` INTEGER NOT NULL,
     `distrito_id` INTEGER NOT NULL,

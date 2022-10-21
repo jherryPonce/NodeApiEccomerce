@@ -11,6 +11,8 @@ model Categoria {
   id    Int    @id @default(autoincrement())
   name  String @db.VarChar(50)
   image String @db.VarChar(50)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   subcategoria SubCategoria[]
 
@@ -22,7 +24,8 @@ model SubCategoria {
   name  String @db.VarChar(50)
   image String @db.VarChar(50)
   size Boolean
-
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   categoriaId Int       @map("categoria_id")
   categoria   Categoria @relation(fields: [categoriaId], references: [id])
 
@@ -41,7 +44,8 @@ model Producto {
   image String @db.VarChar(50)
   subCategoriaId Int          @map("subcategoria_id")
   subCategoria   SubCategoria @relation(fields: [subCategoriaId], references: [id])
-
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   ordenProducto OrdenProducto[]
   tamano        Tamano[]
   colorProducto ColorProducto[]
@@ -52,7 +56,8 @@ model Producto {
 model Color {
   id   Int    @id @default(autoincrement())
   name String @db.VarChar(50)
-
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   colorProducto ColorProducto[]
   colorTamano   ColorTamano[]
 
@@ -109,7 +114,8 @@ model Orden {
   status     String @db.VarChar(50)
   envio_type String @db.VarChar(50)
   total      String @db.VarChar(50)
-
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   usuarioId     Int         @map("usuario_id")
   usuario       Usuario     @relation(fields: [usuarioId], references: [id])
   precioEnvioId Int         @map("precioEnvio_id")
@@ -123,7 +129,9 @@ model Usuario {
   name       String @db.VarChar(50)
   email      String @db.VarChar(50)
   contrasena String @db.VarChar(50) //Aca es password pero nose como ponerlo xd
-
+  image String @db.VarChar(50)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   orden     Orden[]
   direccion Direccion[]
 
@@ -145,7 +153,8 @@ model PrecioEnvio {
 model Departamento {
   id   Int    @id @default(autoincrement())
   name String @db.VarChar(50)
-
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   previoEnvio PrecioEnvio[]
   ciudad      Ciudad[]
   direccion   Direccion[]
@@ -184,7 +193,8 @@ model Direccion {
   calle      String @db.VarChar(50)
   numero     String @db.VarChar(50)
   referencia String @db.VarChar(50)
-
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   departamentoId Int          @map("departamento_id")
   departamento   Departamento @relation(fields: [departamentoId], references: [id])
   ciudadId       Int          @map("ciudad_id")
