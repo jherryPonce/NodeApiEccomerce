@@ -1,0 +1,284 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Categoria {
+  id    Int    @id @default(autoincrement())
+  name  String @db.VarChar(50)
+  image String @db.VarChar(50)
+
+  subcategoria SubCategoria[]
+
+  @@map("categoria")
+}
+
+model SubCategoria {
+  id    Int    @id @default(autoincrement())
+  name  String @db.VarChar(50)
+  image String @db.VarChar(50)
+  size Boolean
+
+  categoriaId Int       @map("categoria_id")
+  categoria   Categoria @relation(fields: [categoriaId], references: [id])
+
+  producto Producto[]
+
+  @@map("subcategoria")
+}
+
+model Producto {
+  id          Int    @id @default(autoincrement())
+  name        String @db.VarChar(50)
+  descripcion String @db.VarChar(50)
+  price       Float
+  status      Boolean
+  stock       Int
+  image String @db.VarChar(50)
+  subCategoriaId Int          @map("subcategoria_id")
+  subCategoria   SubCategoria @relation(fields: [subCategoriaId], references: [id])
+
+  ordenProducto OrdenProducto[]
+  tamano        Tamano[]
+  colorProducto ColorProducto[]
+
+  @@map("producto")
+}
+
+model Color {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(50)
+
+  colorProducto ColorProducto[]
+  colorTamano   ColorTamano[]
+
+  @@map("color")
+}
+
+model Tamano {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(50)
+
+  productoId Int      @map("producto_id")
+  producto   Producto @relation(fields: [productoId], references: [id])
+
+  @@map("tamaño")
+}
+
+model ColorProducto {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(50)
+
+  colorId    Int      @map("color_id")
+  color      Color    @relation(fields: [colorId], references: [id])
+  productoId Int      @map("producto_id")
+  producto   Producto @relation(fields: [productoId], references: [id])
+
+  @@map("color_producto")
+}
+
+model ColorTamano {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(50)
+
+  colorId Int   @map("color_id")
+  color   Color @relation(fields: [colorId], references: [id])
+  // sizeId  Int   @map("size_id")
+  // size    Size  @relation(fields: [sizeId], references: [id])
+
+  @@map("color_tamaño")
+}
+
+model OrdenProducto {
+  id       Int   @id @default(autoincrement())
+  precio   Float
+  cantidad Int
+
+  productoId Int      @map("producto_id")
+  producto   Producto @relation(fields: [productoId], references: [id])
+
+  @@map("orden_producto")
+}
+
+model Orden {
+  id         Int    @id @default(autoincrement())
+  status     String @db.VarChar(50)
+  envio_type String @db.VarChar(50)
+  total      String @db.VarChar(50)
+
+  usuarioId     Int         @map("usuario_id")
+  usuario       Usuario     @relation(fields: [usuarioId], references: [id])
+  precioEnvioId Int         @map("precioEnvio_id")
+  precioEnvio   PrecioEnvio @relation(fields: [precioEnvioId], references: [id])
+
+  @@map("orden")
+}
+
+model Usuario {
+  id         Int    @id @default(autoincrement())
+  name       String @db.VarChar(50)
+  email      String @db.VarChar(50)
+  contrasena String @db.VarChar(50) //Aca es password pero nose como ponerlo xd
+
+  orden     Orden[]
+  direccion Direccion[]
+
+  @@map("usuario")
+}
+
+model PrecioEnvio {
+  id     Int @id @default(autoincrement())
+  precio Int
+
+  departamentoId Int          @map("departamento_id")
+  departamento   Departamento @relation(fields: [departamentoId], references: [id])
+
+  orden Orden[]
+
+  @@map("precio_envio")
+}
+
+model Departamento {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(50)
+
+  previoEnvio PrecioEnvio[]
+  ciudad      Ciudad[]
+  direccion   Direccion[]
+
+  @@map("departamento")
+}
+
+model Ciudad {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(50)
+
+  departamentoId Int          @map("departamento_id")
+  departamento   Departamento @relation(fields: [departamentoId], references: [id])
+
+  distrito  Distrito[]
+  direccion Direccion[]
+
+  @@map("ciudad")
+}
+
+model Distrito {
+  id         Int    @id @default(autoincrement())
+  name       String @db.VarChar(50)
+  referencia String @db.VarChar(50)
+
+  ciudadId Int    @map("ciudad_id")
+  ciudad   Ciudad @relation(fields: [ciudadId], references: [id])
+
+  direccion Direccion[]
+
+  @@map("distrito")
+}
+
+model Direccion {
+  id         Int    @id @default(autoincrement())
+  calle      String @db.VarChar(50)
+  numero     String @db.VarChar(50)
+  referencia String @db.VarChar(50)
+
+  departamentoId Int          @map("departamento_id")
+  departamento   Departamento @relation(fields: [departamentoId], references: [id])
+  ciudadId       Int          @map("ciudad_id")
+  Ciudad         Ciudad       @relation(fields: [ciudadId], references: [id])
+  distritoId     Int          @map("distrito_id")
+  distrito       Distrito     @relation(fields: [distritoId], references: [id])
+  usuarioId      Int          @map("usuario_id")
+  usuario        Usuario      @relation(fields: [usuarioId], references: [id])
+
+  @@map("direccion")
+}
+
+//--------------------------
+
+model Roles {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(50)
+
+  rolesPermisos RolesPermisos[]
+
+  @@map("roles")
+}
+
+model Permisos {
+  id          Int    @id @default(autoincrement())
+  name        String @db.VarChar(50)
+  ColPermisos String @db.VarChar(50)
+
+  rolesPermisos   RolesPermisos[]
+  modelosPermisos ModelosPermisos[]
+
+  @@map("permisos")
+}
+
+model RolesPermisos {
+  id Int @id @default(autoincrement())
+
+  roles      Roles    @relation(fields: [rolesId], references: [id])
+  rolesId    Int      @map("roles_id")
+  permisos   Permisos @relation(fields: [permisosId], references: [id])
+  permisosId Int      @map("permisos_id")
+
+  @@map("roles_permisos")
+}
+
+model ModelosPermisos {
+  id         Int    @id @default(autoincrement())
+  model_type String @db.VarChar(50)
+
+  Permisos   Permisos @relation(fields: [permisosId], references: [id])
+  permisosId Int      @map("permisos_id")
+
+  @@map("modelos_permisos")
+}
+
+model Imagen {
+  id  Int    @id @default(autoincrement())
+  url String @db.VarChar(50)
+
+  imagen_id   String @db.VarChar(50)
+  imagen_type String @db.VarChar(50)
+
+  @@map("imagen")
+}
+
+model RedesSociales {
+  id          Int    @id @default(autoincrement())
+  url         String @db.VarChar(50)
+  Descripcion String @db.VarChar(50)
+
+  @@map("redessociales")
+}
+
+model Sliders {
+  id          Int    @id @default(autoincrement())
+  nombre      String @db.VarChar(50)
+  url         String @db.VarChar(50)
+  descripcion String @db.VarChar(50)
+  estado      BigInt
+  sliderCol   String @db.VarChar(50)
+
+  @@map("sliders")
+}
+
+model Empresa {
+  id          Int    @id @default(autoincrement())
+  nombre      String @db.VarChar(50)
+  descripcion String @db.VarChar(50)
+  direccion   String @db.VarChar(50)
+  RUC         String @db.VarChar(11)
+  correo      String @db.VarChar(25)
+  telefono    String @db.VarChar(9)
+  URL         String @db.VarChar(50)
+  empresaCol  String @db.VarChar(50)
+
+  @@map("empresa")
+}
