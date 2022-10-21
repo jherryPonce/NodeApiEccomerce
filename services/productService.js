@@ -3,7 +3,7 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 class ProductsServices{
 constructor(){
-  /* this.generate() */
+   /* this.generate()  */
 }
 //categorias
  async  generate(){
@@ -42,7 +42,6 @@ async generate2(){
   const  size = 4 ;
   const subCategorias = await prisma.subCategoria.findMany()
   subCategorias.map(async element => {
-    console.log(element.id)
      for (let i = 0; i < size; i++) {
         await prisma.producto.create({
           data:{
@@ -63,29 +62,25 @@ create(body){
   const {name,descripcion,price,stock,image,subCategoriaId} = body;
    const newProduct =  prisma.producto.create({
     data:{
-      name,
-      price,
-      descripcion,
-      stock,
-      status:true,
-      image,
-      subCategoriaId
+      name, price, descripcion, stock, status:true, image, subCategoriaId
     }
    })
  return newProduct;
-
 }
+
  find(){
   const products =  prisma.producto.findMany()
 
   return products;
 }
+
  findOne(id){
   const productId =  prisma.producto.findFirst({
     where: { id: parseInt(id) }
   })
   return productId;
 }
+
 update(id,data){
   const {name,descripcion,price,stock,status,image,subCategoriaId } = data;
   const product = prisma.producto.update({
@@ -102,11 +97,11 @@ update(id,data){
   })
   return product;
 }
+
 delete(id){
 const delet = this.update(id,{status:false})
 return delet;
 }
-
 }
 
 module.exports = ProductsServices;

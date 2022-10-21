@@ -1,19 +1,23 @@
 const { faker } = require('@faker-js/faker');
+const { PrismaClient } = require('@prisma/client')
 
+const prisma = new PrismaClient()
 class UsersServices{
 
   constructor(){
-    this.users=[],
     this.generate();
   }
 
-  generate(){
+  async generate(){
     const length = 5;
     for (let i = 0; i < length; i++) {
-      this.users.push({
-        id:faker.datatype.uuid(),
+
+      await  prisma.usuario.create({
+        data:{
         name:faker.name.fullName(),
-        image:faker.image.avatar(),
+        email:faker.internet.exampleEmail(),
+        contrasena:faker.internet.password(),
+        image:faker.image.avatar(),}
       })
     }
 
@@ -22,10 +26,14 @@ class UsersServices{
 
   }
   find(){
-   return this.users;
+    const users = prisma.usuario.findMany();
+   return users;
   }
   findOne(id){
-  return this.users.find(item => item.id === id);
+    const usuarioId =  prisma.usuario.findFirst({
+      where: { id: parseInt(id) }
+    })
+    return usuarioId;
   }
   update(){
 
