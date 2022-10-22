@@ -92,10 +92,10 @@ CREATE TABLE `orden` (
     `status` VARCHAR(50) NOT NULL,
     `envio_type` VARCHAR(50) NOT NULL,
     `total` VARCHAR(50) NOT NULL,
-    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updatedAt` DATETIME(3) NOT NULL,
     `usuario_id` INTEGER NOT NULL,
     `precioEnvio_id` INTEGER NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -105,8 +105,8 @@ CREATE TABLE `usuario` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(50) NOT NULL,
     `email` VARCHAR(50) NOT NULL,
-    `contrasena` VARCHAR(50) NOT NULL,
-    `image` VARCHAR(50) NOT NULL,
+    `contrasena` VARCHAR(150) NOT NULL,
+    `image` VARCHAR(50) NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 

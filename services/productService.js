@@ -3,7 +3,7 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 class ProductsServices{
 constructor(){
-   /* this.generate()  */
+   /*  this.generate() */
 }
 //categorias
  async  generate(){
@@ -57,7 +57,7 @@ async generate2(){
       }
   });
 }
-
+//en create se tien que hacer validaciones con try catch y ver si la subactegoria existe
 create(body){
   const {name,descripcion,price,stock,image,subCategoriaId} = body;
    const newProduct =  prisma.producto.create({

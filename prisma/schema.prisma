@@ -77,7 +77,6 @@ model Tamano {
 model ColorProducto {
   id   Int    @id @default(autoincrement())
   name String @db.VarChar(50)
-
   colorId    Int      @map("color_id")
   color      Color    @relation(fields: [colorId], references: [id])
   productoId Int      @map("producto_id")
@@ -89,7 +88,6 @@ model ColorProducto {
 model ColorTamano {
   id   Int    @id @default(autoincrement())
   name String @db.VarChar(50)
-
   colorId Int   @map("color_id")
   color   Color @relation(fields: [colorId], references: [id])
   // sizeId  Int   @map("size_id")
@@ -114,13 +112,12 @@ model Orden {
   status     String @db.VarChar(50)
   envio_type String @db.VarChar(50)
   total      String @db.VarChar(50)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
   usuarioId     Int         @map("usuario_id")
   usuario       Usuario     @relation(fields: [usuarioId], references: [id])
   precioEnvioId Int         @map("precioEnvio_id")
   precioEnvio   PrecioEnvio @relation(fields: [precioEnvioId], references: [id])
-
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   @@map("orden")
 }
 
@@ -128,8 +125,8 @@ model Usuario {
   id         Int    @id @default(autoincrement())
   name       String @db.VarChar(50)
   email      String @db.VarChar(50)
-  contrasena String @db.VarChar(50) //Aca es password pero nose como ponerlo xd
-  image String @db.VarChar(50)
+  contrasena String @db.VarChar(150) //Aca es password pero nose como ponerlo xd
+  image String? @db.VarChar(50)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   orden     Orden[]
