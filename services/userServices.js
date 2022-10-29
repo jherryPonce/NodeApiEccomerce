@@ -35,7 +35,7 @@ class UsersServices{
       data:{
         name,
         email,
-        contrasena
+        contrasena 
       }
     })
     return newUser

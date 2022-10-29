@@ -16,6 +16,11 @@ class OrdenServices{
         usuarioId
       }
      })
+     /* if(newOrden){
+      const orderDetail = prisma.ordenProducto.create({
+        
+      })
+     } */
    return newOrden;
   }
    find(){
